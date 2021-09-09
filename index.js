@@ -37,14 +37,13 @@ module.exports = {
 
         //we use this to detect local hostnames and show that instead of localhost
         if (req.headers['x-forwarded-host']) {
-            if (req.app.locals.domains.indexOf(req.headers['x-forwarded-host']) === -1)
                 host = req.headers['x-forwarded-host'];
         }
 
         let url = req.protocol + "://" + host + req.originalUrl;
 
         //we were just redirected from SumUp after logging in
-        if (url.indexOf(process.env.SUMUP_REDIRECT_URI) > -1 && req.query.code) {
+        if (req.query.code) {
 
             Auth.requestToken(req.query.code).then(function (json) {
                 console.log("Logged in with SumUp. Add this line in your .env file :")
